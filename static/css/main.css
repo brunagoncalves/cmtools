@@ -1,0 +1,19 @@
+/* Estilos para a barra de ferramentas do Quill */
+.ql-toolbar.ql-snow {
+  padding: 16px 24px;
+  border-radius: 12px 12px 0 0;
+}
+
+.ql-picker-label,
+.ql-picker-item,
+.ql-editor {
+  font-family: "Outfit", sans-serif;
+}
+
+.ql-editor {
+  padding: 0;
+}
+
+.ql-container {
+  height: 300px;
+}
