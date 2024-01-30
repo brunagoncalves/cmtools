@@ -42,10 +42,11 @@ def insert_post():
         return redirect(url_for("postRoutes.insert_post"))
 
 
-@postRoutes.route("/list_post")
-def list_post():
+@postRoutes.route("/list_posts")
+def list_posts():
     """ Listar Post """
-    return render_template("posts/list_posts.html")
+    posts = mongo.cx.cmtools.posts.find()
+    return render_template("posts/list_posts.html", posts=posts)
 
 
 @postRoutes.route("/edit_post")
