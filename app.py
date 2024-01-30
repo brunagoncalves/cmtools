@@ -1,11 +1,13 @@
 """ Imports """
 import os
 from flask import Flask
+from dotenv import load_dotenv
 from extentions.database import mongo
 from routes.post import postRoutes
 from routes.main import home
 
-MONGO_URI = os.environ.get("MONGO_URI")
+load_dotenv()
+MONGO_URI = os.getenv("MONGO_URI")
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = MONGO_URI
