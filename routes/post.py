@@ -45,17 +45,19 @@ def insert_post():
 @postRoutes.route("/list_posts")
 def list_posts():
     """ Listar Post """
-    posts = mongo.cx.cmtools.posts.find()
+    posts_cursor = mongo.cx.cmtools.posts.find()
+    posts = list(posts_cursor)
     return render_template("posts/list_posts.html", posts=posts)
 
 
-@postRoutes.route("/edit_post")
-def edit_post():
-    """ Editar Post """
-    return render_template("posts/edit_post.html")
+@postRoutes.route("/post/<string:slug>")
+def post(slug):
+    """ Encontra o post corresponde ao slug """
+    posts_cursor = mongo.cx.cmtools.posts.find()  # Buscar os posts novamente
+    posts = list(posts_cursor)
 
-
-@postRoutes.route("/delete_post")
-def delete_post():
-    """ Editar Post """
-    return "delete"
+    post_data = next((post for post in posts if post['slug'] == slug), None)
+    if post_data:
+        return render_template('posts/post.html', post=post_data)
+    else:
+        return 'Post not found', 404
