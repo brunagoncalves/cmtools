@@ -9,12 +9,12 @@ from extentions.database import mongo
 postRoutes = Blueprint("postRoutes", __name__)
 
 
-@postRoutes.route("/insert_post", methods=["GET", "POST"])
-def insert_post():
+@postRoutes.route("/solutions/insert", methods=["GET", "POST"])
+def insert_solution():
     """ Insert Post """
 
     if request.method == "GET":
-        return render_template("posts/insert_post.html")
+        return render_template("posts/insert.html")
     else:
         title = request.form.get('title')
         slug = slugify(title)
@@ -39,25 +39,31 @@ def insert_post():
         post_id = mongo.cx.cmtools.posts.insert_one(post_data).inserted_id
 
         flash(f"Post inserido com sucesso!{post_id}")
-        return redirect(url_for("postRoutes.insert_post"))
+        return redirect(url_for("postRoutes.insert_solution"))
 
 
-@postRoutes.route("/list_posts")
-def list_posts():
+@postRoutes.route("/solutions/list")
+def list_all_solutions():
     """ Listar Post """
     posts_cursor = mongo.cx.cmtools.posts.find()
     posts = list(posts_cursor)
-    return render_template("posts/list_posts.html", posts=posts)
+    return render_template("posts/list.html", posts=posts)
 
 
-@postRoutes.route("/post/<string:slug>")
-def post(slug):
+@postRoutes.route("/solutions/<string:slug>")
+def view_solution(slug):
     """ Encontra o post corresponde ao slug """
     posts_cursor = mongo.cx.cmtools.posts.find()  # Buscar os posts novamente
     posts = list(posts_cursor)
 
     post_data = next((post for post in posts if post['slug'] == slug), None)
     if post_data:
-        return render_template('posts/post.html', post=post_data)
+        return render_template('posts/view.html', post=post_data)
     else:
         return 'Post not found', 404
+
+
+@postRoutes.route("/solution/edit")
+def edit_solution():
+    """ Editar post """
+    return render_template("/post/edit.html")

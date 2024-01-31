@@ -1,12 +1,14 @@
 {% extends "layout.html" %} 
 
 {% block header %}
-  <a href="/" class="flex hover:text-indigo-500 group transition duration-500">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500 mr-2 group-hover:text-indigo-500 transition duration-500">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
-    </svg>
-    Voltar
-  </a>
+  <div class="flex space-x-4">
+    <a href="/" class="flex items-center hover:text-indigo-500 group transition duration-500">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-500 mr-2 group-hover:text-indigo-500 transition duration-500">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+      </svg>
+      Voltar
+    </a>
+  </div>
 {% endblock %}
 
 
@@ -15,8 +17,8 @@
 
   <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
     {% for post in posts %}
-      <a href="{{ url_for('postRoutes.post', slug=post['slug']) }}">
-        <div class="flex items-center p-6 mb-4 rounded-lg bg-white drop-shadow-lg hover:border-indigo-500 hover:border">
+      <a href="{{ url_for('postRoutes.view_solution', slug=post['slug']) }}">
+        <div class="flex items-center p-6 mb-4 rounded-lg bg-white drop-shadow-lg hover:drop-shadow-xl">
           <div>
             <h1 class="text-2xl font-semibold">{{ post.title }}</h1>
             <p>{{ post.slug }}</p>
