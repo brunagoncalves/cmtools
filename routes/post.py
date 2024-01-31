@@ -1,6 +1,7 @@
 """ Imports """
 import base64
 import datetime
+from bson import ObjectId
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from slugify import slugify
 from extentions.database import mongo
@@ -67,3 +68,14 @@ def view_solution(slug):
 def edit_solution():
     """ Editar post """
     return render_template("/post/edit.html")
+
+
+@postRoutes.route("/solutions/delete/<string:solution_id>")
+def delete_solution(solution_id):
+    """ Delete post """
+    result = mongo.cx.cmtools.posts.delete_one({"_id": ObjectId(solution_id)} )
+    if result.deleted_count == 1:
+        flash("Solução excluida com sucesso!")
+    else:
+        flash("ID não encontrado")
+    return redirect(url_for("postRoutes.list_all_solutions"))
