@@ -6,13 +6,20 @@ from extentions.database import mongo
 from routes.post import postRoutes
 from routes.main import home
 
+# Carrega as variáveis de ambiente armazenadas no arquivo .env
 load_dotenv()
+# Acessa a variável de ambiente MONGO_URI
 MONGO_URI = os.getenv("MONGO_URI")
 
+# Inicia a aplicação
 app = Flask(__name__)
+# Carrega o caminho do banco de dados armazenado na variável MONGO_URI configurada no arquivo .env
 app.config["MONGO_URI"] = MONGO_URI
+# Gerar chaves automáticas com 48 caracteres
 app.config["SECRET_KEY"] = os.urandom(48)
+# Inicializa o banco de dados
 mongo.init_app(app)
+# Blueprint - Arquivos de rotas
 app.register_blueprint(home)
 app.register_blueprint(postRoutes)
 
@@ -21,7 +28,8 @@ app.register_blueprint(postRoutes)
 def test():
     """ Teste Conexão """
     collection = mongo.cx.cmtools.posts
-    collection.insert_one({'name': 'Cristina'})
+    collection.insert_one({'name': 'Teste de Conexão'})
+    collection.insert_one({'slug': 'teste-de-conexao'})
     return '<h1>Conexão OK! Usuário envido cadastrado com sucesso!</h1>'
 
 
