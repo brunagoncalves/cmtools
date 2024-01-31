@@ -64,18 +64,40 @@ def view_solution(slug):
         return 'Post not found', 404
 
 
-@postRoutes.route("/solution/edit")
-def edit_solution():
-    """ Editar post """
-    return render_template("/post/edit.html")
-
-
 @postRoutes.route("/solutions/delete/<string:solution_id>")
 def delete_solution(solution_id):
     """ Delete post """
-    result = mongo.cx.cmtools.posts.delete_one({"_id": ObjectId(solution_id)} )
+    result = mongo.cx.cmtools.posts.delete_one({"_id": ObjectId(solution_id)})
     if result.deleted_count == 1:
         flash("Solução excluida com sucesso!")
     else:
         flash("ID não encontrado")
     return redirect(url_for("postRoutes.list_all_solutions"))
+
+
+@postRoutes.route("/solutions/edit/<string:solution_id>", methods=["GET", "POST"])
+def edit_solution(solution_id):
+    """ Editar post """
+    if request.method == "GET":
+        post_data = mongo.cx.cmtools.posts.find_one(
+            {"_id": ObjectId(solution_id)})
+        return render_template("posts/edit.html", post=post_data)
+    else:
+        # Obter dados do formulário de edição
+        title = request.form.get('title')
+        author = request.form.get('author')
+        image_base64 = request.form.get('image_base64')
+        content = request.form.get('content')
+
+        # Atualizar os dados do post
+        result = mongo.cx.cmtools.posts.update_one(
+            {"_id": ObjectId(solution_id)},
+            {"$set": {"title": title, "author": author, "content": content, "image_base64": image_base64}}
+        )
+
+        if result.modified_count == 1:
+            flash("Post atualizado com sucesso!")
+        else:
+            flash("Falha ao atualizar o post.")
+
+        return redirect(url_for("postRoutes.list_all_solutions"))
