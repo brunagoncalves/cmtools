@@ -19,17 +19,21 @@ app.config["MONGO_URI"] = MONGO_URI
 app.config["SECRET_KEY"] = os.urandom(48)
 # Inicializa o banco de dados
 mongo.init_app(app)
-# Blueprint - Arquivos de rotas
+# Blueprint - Organiza as rotas por grupos
 app.register_blueprint(home)
 app.register_blueprint(postRoutes)
+
+# Rota simples para teste quando necessário
 
 
 @app.route('/test')
 def test():
     """ Teste Conexão """
     collection = mongo.cx.cmtools.posts
-    collection.insert_one({'name': 'Teste de Conexão'})
-    collection.insert_one({'slug': 'teste-de-conexao'})
+    collection.insert_one({
+        'name': 'Teste de Conexão',
+        'slug': "teste-de-conexao"
+    })
     return '<h1>Conexão OK! Usuário envido cadastrado com sucesso!</h1>'
 
 
