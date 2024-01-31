@@ -1,3 +1,4 @@
+// Rich Text
 var quill = new Quill("#editor", {
   modules: {
     toolbar: [
@@ -13,4 +14,4 @@ var quill = new Quill("#editor", {
 document.querySelector("form").onsubmit = function () {
   var content = document.querySelector("input[name=content]");
   content.value = quill.root.innerHTML;
-};
+};// 3 segundos (3000 milissegundos)

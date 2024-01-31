@@ -34,7 +34,7 @@ def test():
         'name': 'Teste de Conexão',
         'slug': "teste-de-conexao"
     })
-    return '<h1>Conexão OK! Usuário envido cadastrado com sucesso!</h1>'
+    return '<h1>Informações adicionadas no banco.</h1>'
 
 
 if __name__ == '__main__':

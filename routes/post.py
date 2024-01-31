@@ -28,19 +28,19 @@ def insert_solution():
         image_base64 = base64.b64encode(image_data).decode('utf-8')
 
         # Criando novo post
-        post_data = {
-            "title": title,
-            "slug": slug,
-            "date": datetime.datetime.now(),
-            "author": author,
-            "content": content,
-            "image_base64": image_base64
-        }
+        mongo.cx.cmtools.posts.insert_one(
+            {
+                "title": title,
+                "slug": slug,
+                "date": datetime.datetime.now(),
+                "author": author,
+                "content": content,
+                "image_base64": image_base64
+            }
+        )
 
-        post_id = mongo.cx.cmtools.posts.insert_one(post_data).inserted_id
-
-        flash(f"Post inserido com sucesso!{post_id}")
-        return redirect(url_for("postRoutes.insert_solution"))
+        flash("Post inserido com sucesso!")
+        return redirect(url_for("postRoutes.list_all_solutions"))
 
 
 @postRoutes.route("/solutions/list")
@@ -92,7 +92,8 @@ def edit_solution(solution_id):
         # Atualizar os dados do post
         result = mongo.cx.cmtools.posts.update_one(
             {"_id": ObjectId(solution_id)},
-            {"$set": {"title": title, "author": author, "content": content, "image_base64": image_base64}}
+            {"$set": {"title": title, "author": author,
+                      "content": content, "image_base64": image_base64}}
         )
 
         if result.modified_count == 1:
