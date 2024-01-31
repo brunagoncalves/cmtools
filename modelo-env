@@ -1,0 +1,2 @@
+# Renomeie este arquivo para apenas .env, e insira o endereço do banco de dados MongoDB
+MONGO_URI=mongodb://rota
