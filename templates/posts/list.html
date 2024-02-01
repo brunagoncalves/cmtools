@@ -13,35 +13,34 @@
 
 {% block content %}
 <div class="container mx-auto max-w-5xl p-6">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash-messages bg-green-400 p-4 text-center rounded-xl">
-              {% for message in messages %}
-                  <div>{{ message }}</div>
-              {% endfor %}
-          </div>
-      {% endif %}
-    {% endwith %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages bg-green-400 p-4 text-center rounded-xl">
+            {% for message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+  {% endwith %}
 
-  <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+  <ul>
     {% for post in posts %}
-      <a href="{{ url_for('postRoutes.view_solution', slug=post['slug']) }}">
-        <div class="flex items-center justify-between p-6 mb-4 rounded-lg bg-white drop-shadow-lg hover:drop-shadow-xl">
+      <li class="mb-4 bg-white p-8 rounded-xl">
+        <a class="flex justify-between items-center" href="{{ url_for('postRoutes.view_solution', slug=post['slug']) }}">
           <div>
             <h1 class="text-2xl font-semibold">{{ post.title }}</h1>
-            <p>{{ post.slug }}</p>
             <p class="font-light text-gray-400 py-4">{{ post.author }}</p>
             <div class="line-clamp-3">
               {{ post.content | safe }}
             </div>
           </div>
-          <div class="bg-gray-500 max-w-[150px]">
+          <div class="bg-gray-500 max-w-[150px] ml-2">
             <img src="data:image/jpeg;base64, {{ post.image_base64 }}" alt="Image">
           </div>
-        </div>
-      </a>
-    {% endfor %}
-  </div>
+        </a>
+      </li>
+      {% endfor %}
+  </ul>
 </div>
 
 <!-- <script>
