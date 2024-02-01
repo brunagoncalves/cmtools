@@ -23,8 +23,6 @@ mongo.init_app(app)
 app.register_blueprint(home)
 app.register_blueprint(postRoutes)
 
-# Rota simples para teste quando necessário
-
 
 @app.route('/test')
 def test():

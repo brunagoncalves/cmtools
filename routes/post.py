@@ -1,6 +1,7 @@
 """ Imports """
 import base64
 import datetime
+from pymongo import TEXT
 from bson import ObjectId
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from slugify import slugify
@@ -43,10 +44,29 @@ def insert_solution():
         return redirect(url_for("postRoutes.list_all_solutions"))
 
 
-@postRoutes.route("/solutions/list")
+# @postRoutes.route("/solutions/list")
+# def list_all_solutions():
+#     """ Listar Post """
+#     posts_cursor = mongo.cx.cmtools.posts.find()
+#     posts = list(posts_cursor)
+#     return render_template("posts/list.html", posts=posts)
+
+@postRoutes.route("/solutions/list", methods=["GET"])
 def list_all_solutions():
     """ Listar Post """
-    posts_cursor = mongo.cx.cmtools.posts.find()
+    # Crie um índice de texto na coleção 'posts' nos campos 'title' e 'content'
+    mongo.cx.cmtools.posts.create_index([("title", TEXT), ("content", TEXT)])
+
+    query = request.args.get(
+        'query')  # Obter o parâmetro de consulta 'query' da URL
+    if query:
+        # Se houver uma consulta, encontrar posts que correspondam à consulta
+        posts_cursor = mongo.cx.cmtools.posts.find(
+            {"$text": {"$search": query}})
+    else:
+        # Caso contrário, retornar todos os posts
+        posts_cursor = mongo.cx.cmtools.posts.find()
+
     posts = list(posts_cursor)
     return render_template("posts/list.html", posts=posts)
 
