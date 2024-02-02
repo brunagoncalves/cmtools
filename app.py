@@ -3,8 +3,9 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from extentions.database import mongo
-from routes.post import postRoutes
 from routes.main import home
+from routes.post import postRoutes
+from routes.mails import mailsRoutes
 
 # Carrega as variáveis de ambiente armazenadas no arquivo .env
 load_dotenv()
@@ -22,6 +23,7 @@ mongo.init_app(app)
 # Blueprint - Organiza as rotas por grupos
 app.register_blueprint(home)
 app.register_blueprint(postRoutes)
+app.register_blueprint(mailsRoutes)
 
 
 @app.route('/test')
