@@ -29,10 +29,10 @@ app.register_blueprint(mailsRoutes)
 @app.route('/test')
 def test():
     """ Teste Conexão """
-    collection = mongo.cx.cmtools.posts
+    collection = mongo.cx.cmtools.mails
     collection.insert_one({
-        'name': 'Teste de Conexão',
-        'slug': "teste-de-conexao"
+        'email': 'Teste de Conexão',
+        'password': "teste-de-conexao"
     })
     return '<h1>Informações adicionadas no banco.</h1>'
 
