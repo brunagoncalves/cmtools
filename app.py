@@ -6,6 +6,7 @@ from extentions.database import mongo
 from routes.main import home
 from routes.post import postRoutes
 from routes.mails import mailsRoutes
+from routes.phones import phoneRoutes
 
 # Carrega as variáveis de ambiente armazenadas no arquivo .env
 load_dotenv()
@@ -24,6 +25,7 @@ mongo.init_app(app)
 app.register_blueprint(home)
 app.register_blueprint(postRoutes)
 app.register_blueprint(mailsRoutes)
+app.register_blueprint(phoneRoutes)
 
 
 @app.route('/test')
@@ -31,10 +33,10 @@ def test():
     """ Teste Conexão """
     collection = mongo.cx.cmtools.mails
     collection.insert_one({
-        'email': 'Teste de Conexão',
-        'password': "teste-de-conexao"
+        'email': 'suporte@suporte.com.br',
+        'password': "senha123"
     })
-    return '<h1>Informações adicionadas no banco.</h1>'
+    return '<h1>Informações adicionadas no banco de dados.</h1>'
 
 
 if __name__ == '__main__':
