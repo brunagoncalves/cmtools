@@ -4,6 +4,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from extentions.database import mongo
 from routes.main import home
+from routes.test import testRoutes
 from routes.post import postRoutes
 from routes.mails import mailsRoutes
 from routes.phones import phoneRoutes
@@ -23,20 +24,10 @@ app.config["SECRET_KEY"] = os.urandom(48)
 mongo.init_app(app)
 # Blueprint - Organiza as rotas por grupos
 app.register_blueprint(home)
+app.register_blueprint(testRoutes)
 app.register_blueprint(postRoutes)
 app.register_blueprint(mailsRoutes)
 app.register_blueprint(phoneRoutes)
-
-
-@app.route('/test')
-def test():
-    """ Teste Conexão """
-    collection = mongo.cx.cmtools.mails
-    collection.insert_one({
-        'email': 'suporte@suporte.com.br',
-        'password': "senha123"
-    })
-    return '<h1>Informações adicionadas no banco de dados.</h1>'
 
 
 if __name__ == '__main__':
